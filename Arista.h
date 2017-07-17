@@ -21,7 +21,6 @@ public:
 
    Punto3D cogerPunto1(void) { return * p1; }
    Punto3D cogerPunto2(void) { return * p2; }
-
 };
 
 #endif // !defined(AFX_ARISTA_H__E4F25A03_FC8D_4DEA_9C0D_6B2B239BAF96__INCLUDED_)

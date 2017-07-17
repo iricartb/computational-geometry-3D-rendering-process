@@ -34,7 +34,6 @@ public:
    int cogerNumCaras(void) { return numCaras; }
    int visible(void) { return v; }
    int modVisible(int);
-
 };
 
 #endif // !defined(AFX_CARA_H__F0041EDF_F347_42A9_B9FD_15B9FA78DAF4__INCLUDED_)

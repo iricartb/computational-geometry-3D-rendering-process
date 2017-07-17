@@ -54,8 +54,8 @@ void Xcube::CalcularLandaMin() {
 
    for (int j = 1; j < 8; j++) { 
       if (landa > vertices[j].cogerL()) {
-	     landa = vertices[j].cogerL();
-	  }
+         landa = vertices[j].cogerL();
+      }
    }
    landaMin = landa;
 }
@@ -70,48 +70,47 @@ void Xcube::dibujar(Visual v, Ventana win) {
 
    for (int c = 0; c < 6; c++) {
       if (this->caras[c]->visible() == 0) {
-		  for (int n = 0; n < 4; n++) {
-	         if (((*(this->caras[c]->listarVertices() + n))->cogerL() > 0) && ((*(this->caras[c]->listarVertices() + ((n + 1) % 4)))->cogerL() > 0)) {
-		        aux1 = Figura::punto3Da2D((*(this->caras[c]->listarVertices() + n)), v, win);
-	    	    aux2 = Figura::punto3Da2D((*(this->caras[c]->listarVertices() + ((n + 1) % 4))), v, win);
-				aux2D = Arista2D(&aux1, &aux2);
-				Cpintar.addArista2D(&aux2D);			
-			 }
-			 else if ((((*(this->caras[c]->listarVertices() + n))->cogerL() > 0) && ((*(this->caras[c]->listarVertices() + ((n + 1) % 4)))->cogerL() < 0)) || 
-				(((*(this->caras[c]->listarVertices() + n))->cogerL() < 0) && ((*(this->caras[c]->listarVertices() + ((n + 1) % 4)))->cogerL() > 0))) {
-				 if (((*(this->caras[c]->listarVertices() + n))->cogerL() > 0) && ((*(this->caras[c]->listarVertices() + ((n + 1) % 4)))->cogerL() < 0)) {
-                    aux1 = Figura::punto3Da2D((*(this->caras[c]->listarVertices() + n)), v, win);              // A' no es virtual
-	    	        aux2 = Figura::punto3Da2D((*(this->caras[c]->listarVertices() + ((n + 1) % 4))), v, win);  // B' es virtual	
-				    aux2 = Figura::solucionarVisibilidad(aux2, aux1);                                          // B''
-					aux2D = Arista2D(&aux1, &aux2);
-					Cpintar.addArista2D(&aux2D);	
-				 }
-                 else {
-                    aux1 = Figura::punto3Da2D((*(this->caras[c]->listarVertices() + n)), v, win);              // A' es virtual
-	    	        aux2 = Figura::punto3Da2D((*(this->caras[c]->listarVertices() + ((n + 1) % 4))), v, win);  // B' no es virtual	
-				    aux1 = Figura::solucionarVisibilidad(aux1, aux2);                                          // A''
-			        aux2D = Arista2D(&aux1, &aux2);
-				    Cpintar.addArista2D(&aux2D);			    	       
-				 }
-			 }
+         for (int n = 0; n < 4; n++) {
+            if (((*(this->caras[c]->listarVertices() + n))->cogerL() > 0) && ((*(this->caras[c]->listarVertices() + ((n + 1) % 4)))->cogerL() > 0)) {
+               aux1 = Figura::punto3Da2D((*(this->caras[c]->listarVertices() + n)), v, win);
+               aux2 = Figura::punto3Da2D((*(this->caras[c]->listarVertices() + ((n + 1) % 4))), v, win);
+               aux2D = Arista2D(&aux1, &aux2);
+               Cpintar.addArista2D(&aux2D);			
+            }
+            else if ((((*(this->caras[c]->listarVertices() + n))->cogerL() > 0) && ((*(this->caras[c]->listarVertices() + ((n + 1) % 4)))->cogerL() < 0)) || 
+            (((*(this->caras[c]->listarVertices() + n))->cogerL() < 0) && ((*(this->caras[c]->listarVertices() + ((n + 1) % 4)))->cogerL() > 0))) {
+               if (((*(this->caras[c]->listarVertices() + n))->cogerL() > 0) && ((*(this->caras[c]->listarVertices() + ((n + 1) % 4)))->cogerL() < 0)) {
+                  aux1 = Figura::punto3Da2D((*(this->caras[c]->listarVertices() + n)), v, win);              // A' no es virtual
+                  aux2 = Figura::punto3Da2D((*(this->caras[c]->listarVertices() + ((n + 1) % 4))), v, win);  // B' es virtual	
+                  aux2 = Figura::solucionarVisibilidad(aux2, aux1);                                          // B''
+                  aux2D = Arista2D(&aux1, &aux2);
+                  Cpintar.addArista2D(&aux2D);	
+               }
+               else {
+                  aux1 = Figura::punto3Da2D((*(this->caras[c]->listarVertices() + n)), v, win);              // A' es virtual
+                  aux2 = Figura::punto3Da2D((*(this->caras[c]->listarVertices() + ((n + 1) % 4))), v, win);  // B' no es virtual	
+                  aux1 = Figura::solucionarVisibilidad(aux1, aux2);                                          // A''
+                  aux2D = Arista2D(&aux1, &aux2);
+                  Cpintar.addArista2D(&aux2D);			    	       
+               }
+            }
+         }
 
-		  }
+         if (pintar) {
+            glColor3f(RGBcaras[0], RGBcaras[1], RGBcaras[2]);
+            if (Cpintar.cogerCont2() == Cpintar.cogerNumAristas()) {
+               Figura::calcularOrdenadas(&Cpintar);
+               Figura::pintarCara(&Cpintar, win, v);
+            }
+         }
 
-	     if (pintar) {
-	        glColor3f(RGBcaras[0], RGBcaras[1], RGBcaras[2]);
-	        if (Cpintar.cogerCont2() == Cpintar.cogerNumAristas()) {
-	   	       Figura::calcularOrdenadas(&Cpintar);
-	           Figura::pintarCara(&Cpintar, win, v);
-			}
-		 }
-
-		  glColor3f(RGBaristas[0], RGBaristas[1], RGBaristas[2]);
-		  for(int i = 0; i < Cpintar.cogerCont2(); i++) {
-		     if (Figura::pintarSegmentos(&(Cpintar.listarAristas() + i)->cogerP1(), &(Cpintar.listarAristas() + i)->cogerP2(), win))
-		        Figura::drawLine(int((Cpintar.listarAristas() + i)->cogerP1().cogerX()), int((Cpintar.listarAristas() + i)->cogerP1().cogerY()), int((Cpintar.listarAristas() + i)->cogerP2().cogerX()), int((Cpintar.listarAristas() + i)->cogerP2().cogerY()));
-		  }
-		  Cpintar.erase();
-	  }
+        glColor3f(RGBaristas[0], RGBaristas[1], RGBaristas[2]);
+        for(int i = 0; i < Cpintar.cogerCont2(); i++) {
+           if (Figura::pintarSegmentos(&(Cpintar.listarAristas() + i)->cogerP1(), &(Cpintar.listarAristas() + i)->cogerP2(), win))
+              Figura::drawLine(int((Cpintar.listarAristas() + i)->cogerP1().cogerX()), int((Cpintar.listarAristas() + i)->cogerP1().cogerY()), int((Cpintar.listarAristas() + i)->cogerP2().cogerX()), int((Cpintar.listarAristas() + i)->cogerP2().cogerY()));
+        }
+        Cpintar.erase();
+      }
    }
 }
 

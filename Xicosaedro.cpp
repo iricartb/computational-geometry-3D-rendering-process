@@ -12,22 +12,22 @@
 Xicosaedro::Xicosaedro(double r) {
    double a, ra, apocaras;
    int i;
-   
+
    a = r;
    ra = (((4 * r) * sqrt(10)) / (sqrt(10 - (2 * sqrt(5))) * sqrt(25 + (11 * sqrt(5)))));
    apocaras = ra * cos((36 * PI) / 180);
 
    for (i = 0; i < 5; i++) {
-     vDodecaedro[i] = Punto3D(cos(((i + 1) * 72 * PI) / 180) * ra, sin(((i + 1) * 72 * PI) / 180) * ra, 0); 
-     vDodecaedro[i + 5] = Punto3D(cos(((i + 1) * 72 * PI) / 180) * (-apocaras - ((sqrt(5) / 5) * (ra + apocaras))), sin(((i + 1) * 72 * PI) / 180) * (-apocaras - ((sqrt(5) / 5) * (ra + apocaras))), 2 * (sqrt(5) / 5) * (ra + apocaras));
-     vDodecaedro[i + 10] = Punto3D(cos(((i + 1) * 72 * PI) / 180) * -ra, sin(((i + 1) * 72 * PI) / 180) * -ra, 2 * a);
-     vDodecaedro[i + 15] = Punto3D(cos(((i + 1) * 72 * PI) / 180) * (apocaras + ((sqrt(5) / 5) * (ra + apocaras))), sin(((i + 1) * 72 * PI) / 180) * (apocaras + ((sqrt(5) / 5) * (ra + apocaras))), (2 * a) - (2 * ((sqrt(5) / 5) * (ra + apocaras))));
+      vDodecaedro[i] = Punto3D(cos(((i + 1) * 72 * PI) / 180) * ra, sin(((i + 1) * 72 * PI) / 180) * ra, 0); 
+      vDodecaedro[i + 5] = Punto3D(cos(((i + 1) * 72 * PI) / 180) * (-apocaras - ((sqrt(5) / 5) * (ra + apocaras))), sin(((i + 1) * 72 * PI) / 180) * (-apocaras - ((sqrt(5) / 5) * (ra + apocaras))), 2 * (sqrt(5) / 5) * (ra + apocaras));
+      vDodecaedro[i + 10] = Punto3D(cos(((i + 1) * 72 * PI) / 180) * -ra, sin(((i + 1) * 72 * PI) / 180) * -ra, 2 * a);
+      vDodecaedro[i + 15] = Punto3D(cos(((i + 1) * 72 * PI) / 180) * (apocaras + ((sqrt(5) / 5) * (ra + apocaras))), sin(((i + 1) * 72 * PI) / 180) * (apocaras + ((sqrt(5) / 5) * (ra + apocaras))), (2 * a) - (2 * ((sqrt(5) / 5) * (ra + apocaras))));
    }
 
    for (i = 0; i < 20; i++){
       vDodecaedro[i].modX(-1 * (vDodecaedro[i].cogerX()) + 8);
       vDodecaedro[i].modY(-1 * (vDodecaedro[i].cogerY()) + 5);
-	  vDodecaedro[i].modZ((vDodecaedro[i].cogerZ()) - 0.3);
+      vDodecaedro[i].modZ((vDodecaedro[i].cogerZ()) - 0.3);
    }
         
    vertices[0] = Figura::baricentro(new Cara(&vDodecaedro[0], &vDodecaedro[4], &vDodecaedro[3], &vDodecaedro[2], &vDodecaedro[1])); 
@@ -85,62 +85,62 @@ void Xicosaedro::CalcularLandaMin() {
 
    for (int j = 1; j < 12; j++) { 
       if (landa > vertices[j].cogerL()) {
-	     landa = vertices[j].cogerL();
-	  }
+         landa = vertices[j].cogerL();
+      }
    }
    landaMin = landa;
 }
 
 void Xicosaedro::dibujar(Visual v, Ventana win) {
-
    Punto2D aux1, aux2;
    Arista2D aux2D;
    Cara2D Cpintar(3);
-   
+
    for (int i = 0; i < 20; i++) caras[i]->modVisible(Figura::calcularCaras(v, * caras[i]));
 
    for (int c = 0; c < 20; c++) {
       if (this->caras[c]->visible() == 0) {
-		  for (int n = 0; n < 3; n++) {
-	         if (((*(this->caras[c]->listarVertices() + n))->cogerL() > 0) && ((*(this->caras[c]->listarVertices() + ((n + 1) % 3)))->cogerL() > 0)) {
-		        aux1 = Figura::punto3Da2D((*(this->caras[c]->listarVertices() + n)), v, win);
-	    	    aux2 = Figura::punto3Da2D((*(this->caras[c]->listarVertices() + ((n + 1) % 3))), v, win);
-				aux2D = Arista2D(&aux1, &aux2);
-				Cpintar.addArista2D(&aux2D);
-			 }
-			 else if ((((*(this->caras[c]->listarVertices() + n))->cogerL() > 0) && ((*(this->caras[c]->listarVertices() + ((n + 1) % 3)))->cogerL() < 0)) || 
-				(((*(this->caras[c]->listarVertices() + n))->cogerL() < 0) && ((*(this->caras[c]->listarVertices() + ((n + 1) % 3)))->cogerL() > 0))) {
-				 if (((*(this->caras[c]->listarVertices() + n))->cogerL() > 0) && ((*(this->caras[c]->listarVertices() + ((n + 1) % 3)))->cogerL() < 0)) {
-                    aux1 = Figura::punto3Da2D((*(this->caras[c]->listarVertices() + n)), v, win);              // A' no es virtual
-	    	        aux2 = Figura::punto3Da2D((*(this->caras[c]->listarVertices() + ((n + 1) % 3))), v, win);  // B' es virtual			   
-				    aux2 = Figura::solucionarVisibilidad(aux2, aux1);                                          // B''
-				    aux2D = Arista2D(&aux1, &aux2);
-				    Cpintar.addArista2D(&aux2D);			    
-				 }
-                 else {
-                    aux1 = Figura::punto3Da2D((*(this->caras[c]->listarVertices() + n)), v, win);              // A' es virtual
-	    	        aux2 = Figura::punto3Da2D((*(this->caras[c]->listarVertices() + ((n + 1) % 3))), v, win);  // B' no es virtual			   
-				    aux1 = Figura::solucionarVisibilidad(aux1, aux2);                                          // A''
-				    aux2D = Arista2D(&aux1, &aux2);
-				    Cpintar.addArista2D(&aux2D);
-				 }
-			 }
-		  }
-	     if (pintar) {
-	        glColor3f(RGBcaras[0], RGBcaras[1], RGBcaras[2]);
-	        if (Cpintar.cogerCont2() == Cpintar.cogerNumAristas()) {
-		       Figura::calcularOrdenadas(&Cpintar);
-	           Figura::pintarCara(&Cpintar, win, v);
-			}
-		 }
+         for (int n = 0; n < 3; n++) {
+            if (((*(this->caras[c]->listarVertices() + n))->cogerL() > 0) && ((*(this->caras[c]->listarVertices() + ((n + 1) % 3)))->cogerL() > 0)) {
+               aux1 = Figura::punto3Da2D((*(this->caras[c]->listarVertices() + n)), v, win);
+               aux2 = Figura::punto3Da2D((*(this->caras[c]->listarVertices() + ((n + 1) % 3))), v, win);
+               aux2D = Arista2D(&aux1, &aux2);
+               Cpintar.addArista2D(&aux2D);
+            }
+            else if ((((*(this->caras[c]->listarVertices() + n))->cogerL() > 0) && ((*(this->caras[c]->listarVertices() + ((n + 1) % 3)))->cogerL() < 0)) || 
+            (((*(this->caras[c]->listarVertices() + n))->cogerL() < 0) && ((*(this->caras[c]->listarVertices() + ((n + 1) % 3)))->cogerL() > 0))) {
+               if (((*(this->caras[c]->listarVertices() + n))->cogerL() > 0) && ((*(this->caras[c]->listarVertices() + ((n + 1) % 3)))->cogerL() < 0)) {
+                  aux1 = Figura::punto3Da2D((*(this->caras[c]->listarVertices() + n)), v, win);              // A' no es virtual
+                  aux2 = Figura::punto3Da2D((*(this->caras[c]->listarVertices() + ((n + 1) % 3))), v, win);  // B' es virtual			   
+                  aux2 = Figura::solucionarVisibilidad(aux2, aux1);                                          // B''
+                  aux2D = Arista2D(&aux1, &aux2);
+                  Cpintar.addArista2D(&aux2D);			    
+               }
+               else {
+                  aux1 = Figura::punto3Da2D((*(this->caras[c]->listarVertices() + n)), v, win);              // A' es virtual
+                  aux2 = Figura::punto3Da2D((*(this->caras[c]->listarVertices() + ((n + 1) % 3))), v, win);  // B' no es virtual			   
+                  aux1 = Figura::solucionarVisibilidad(aux1, aux2);                                          // A''
+                  aux2D = Arista2D(&aux1, &aux2);
+                  Cpintar.addArista2D(&aux2D);
+               }
+            }
+         }
+         
+         if (pintar) {
+            glColor3f(RGBcaras[0], RGBcaras[1], RGBcaras[2]);
+            if (Cpintar.cogerCont2() == Cpintar.cogerNumAristas()) {
+               Figura::calcularOrdenadas(&Cpintar);
+               Figura::pintarCara(&Cpintar, win, v);
+            }
+         }
 
-		  glColor3f(RGBaristas[0], RGBaristas[1], RGBaristas[2]);
-		  for(int i = 0; i < Cpintar.cogerCont2(); i++) {
-		     if (Figura::pintarSegmentos(&(Cpintar.listarAristas() + i)->cogerP1(), &(Cpintar.listarAristas() + i)->cogerP2(), win))
-		        Figura::drawLine(int((Cpintar.listarAristas() + i)->cogerP1().cogerX()), int((Cpintar.listarAristas() + i)->cogerP1().cogerY()), int((Cpintar.listarAristas() + i)->cogerP2().cogerX()), int((Cpintar.listarAristas() + i)->cogerP2().cogerY()));
-		  }
-		  Cpintar.erase();
-	  }
+         glColor3f(RGBaristas[0], RGBaristas[1], RGBaristas[2]);
+         for(int i = 0; i < Cpintar.cogerCont2(); i++) {
+            if (Figura::pintarSegmentos(&(Cpintar.listarAristas() + i)->cogerP1(), &(Cpintar.listarAristas() + i)->cogerP2(), win))
+               Figura::drawLine(int((Cpintar.listarAristas() + i)->cogerP1().cogerX()), int((Cpintar.listarAristas() + i)->cogerP1().cogerY()), int((Cpintar.listarAristas() + i)->cogerP2().cogerX()), int((Cpintar.listarAristas() + i)->cogerP2().cogerY()));
+         }
+         Cpintar.erase();
+      }
    }
 }
 

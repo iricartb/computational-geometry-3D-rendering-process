@@ -19,10 +19,10 @@ Cara2D::Cara2D(int n) {
 Cara2D::~Cara2D() { }
 
 void Cara2D::addPunto2D(Punto2D p) {
-	if (cont < numVertices) {
-	   listaVertices[cont] = p;
-	   cont++;
-	}
+   if (cont < numVertices) {
+      listaVertices[cont] = p;
+      cont++;
+   }
 }
 
 bool Cara2D::buscarPunto(Punto2D p) {
@@ -39,18 +39,18 @@ void Cara2D::addArista2D(Arista2D * a) {
    if (cont2 < numAristas) {
       listaAristas[cont2].copia(a);
       cont2++;
-	  if (cont2 == 1) {
-	     addPunto2D(a->cogerPunto1());
-		 addPunto2D(a->cogerPunto2());
-	  }
-	  else {
-	     if (!buscarPunto(a->cogerPunto1())) {
-		    addPunto2D(a->cogerPunto1());
-		 }	
-	     if (!buscarPunto(a->cogerPunto2())) {
-		    addPunto2D(a->cogerPunto2());
-		 }
-	  }
+      if (cont2 == 1) {
+         addPunto2D(a->cogerPunto1());
+         addPunto2D(a->cogerPunto2());
+      }
+      else {
+         if (!buscarPunto(a->cogerPunto1())) {
+            addPunto2D(a->cogerPunto1());
+         }	
+         if (!buscarPunto(a->cogerPunto2())) {
+            addPunto2D(a->cogerPunto2());
+         }
+      }
    }	
 }
 

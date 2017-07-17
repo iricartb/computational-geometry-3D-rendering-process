@@ -21,27 +21,25 @@ Ventana::Ventana(int width, int height, double m_width, double m_height) {
 Ventana::~Ventana() { }
 
 int Ventana::dibujar(void) {
-   
-   glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);                                 // Modo de Pantalla RGB, Doble Buffer
-   glutInitWindowSize(ancho, alto);                                             // Ventana -> Dimensión
-   glutInitWindowPosition(100, 100);                                            // Ventana -> Posición
-   return (glutCreateWindow("Geometria Computacional"));						// Ventana -> Titulo
+   glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);                                  // Modo de Pantalla RGB, Doble Buffer
+   glutInitWindowSize(ancho, alto);                                              // Ventana -> Dimensión
+   glutInitWindowPosition(100, 100);                                             // Ventana -> Posición
+   return (glutCreateWindow("Geometria Computacional"));                         // Ventana -> Titulo
 }
 
 void Ventana::inicializar(void) {
-   Figura::clearScreen();                                                       // Borramos la pantalla
-   glOrtho(0, ancho, alto, 0, 0 ,1);                                            // Visión Planar 2D
+   Figura::clearScreen();                                                        // Borramos la pantalla
+   glOrtho(0, ancho, alto, 0, 0 ,1);                                             // Visión Planar 2D
 }
 
-void Ventana::fullScreen(void) {                                                // Pantalla completa
+void Ventana::fullScreen(void) {                                                 // Pantalla completa
    if (!fscreen) {
       glutFullScreen();
-	  fscreen = true;
+      fscreen = true;
    }
    else {
       glutReshapeWindow(ancho, alto);
       glutPositionWindow(100, 100);
-	  fscreen = false;
+      fscreen = false;
    }
 }
-

@@ -82,12 +82,11 @@ Poligono * listaPoligonos[NUMPOLIGONOS];
 /* ################################################## [ METODOS ] ############################################################ */
 
 int main(int argc, char * argv[]) {
-   
    glutInit(&argc, argv);
    inicializarParam();                                                            // Inicializamos Parámetros inciales   
-	 
+    
    if (win.dibujar() < 1) { return -1; }                                          // Dibujamos la Ventana
-   
+
    win.inicializar();	                                                          // Iniciamos los parámetros -> Ventana 
 
    glutKeyboardFunc(keyPress);                                                    // Capturamos los eventos del teclado -> Keyboard
@@ -114,18 +113,18 @@ void paint(void) {
 
 void keyb(void) {
    if (saltar) {
-	  if (dsalto != DELAYSALTO) {
+      if (dsalto != DELAYSALTO) {
          v.modZ(v.cogerZ() + DELAY / 2);
          calcularLandas();
          dsalto++;
-		 if (!paintMaterial) Sleep(5);
-	  }
-	  else {
+         if (!paintMaterial) Sleep(5);
+      }
+      else {
          dsalto = 0;		 
          bajada = true;
          saltar = false;
          if (!paintMaterial) Sleep(50);
-	  }
+      }
    }
    else if (bajada) {
       if (dsalto != DELAYSALTO) {
@@ -194,7 +193,7 @@ void inicializarParam(void) {
    icosaedro.modRGBaristas(0.9, 0.9, 0.9);
    icosaedro.modRGBcaras(0.8, 0.6, 0.2);
 
-   listaPoligonos[0] = &cubo;													  // Inicializamos la lista de polígonos -> Cubo
+   listaPoligonos[0] = &cubo;                                                     // Inicializamos la lista de polígonos -> Cubo
    listaPoligonos[1] = &cubotapa;                                                 // Inicializamos la lista de polígonos -> Tapa
    listaPoligonos[2] = &ortoedro1;                                                // Inicializamos la lista de polígonos -> Ortoedro1
    listaPoligonos[3] = &ortoedro2;                                                // Inicializamos la lista de polígonos -> Ortoedro2 
@@ -234,48 +233,48 @@ void keyPress(unsigned char key_code, int xpos, int ypos) {
                 break;
       
 	  case 'r': if ((!createThread) && (!explotar)) {
-                    if (win.cogerFullScreen()) { win.fullScreen(); break; } 
+                  if (win.cogerFullScreen()) { win.fullScreen(); break; } 
 
-                    int n = 0; char chr = '?';
-                    if (cubotapa.cogerTapa()) cubotapa.modTapa(false);
-                    printf("\n-> Punto (x1 x2 x3): ");                             // Pedimos el punto de rotación
-                    scanf("%s %s %s", &x, &y, &z);                                    
+                  int n = 0; char chr = '?';
+                  if (cubotapa.cogerTapa()) cubotapa.modTapa(false);
+                  printf("\n-> Punto (x1 x2 x3): ");                              // Pedimos el punto de rotación
+                  scanf("%s %s %s", &x, &y, &z);                                    
 
-                    while (chr != 10) chr = getchar();
-                    chr = '?';
+                  while (chr != 10) chr = getchar();
+                  chr = '?';
 
-                    datos.punto.modX(atof(x));
-                    datos.punto.modY(atof(y));
-                    datos.punto.modZ(atof(z));
+                  datos.punto.modX(atof(x));
+                  datos.punto.modY(atof(y));
+                  datos.punto.modZ(atof(z));
 
-                    do {
-                      if (n != 0) 
-                         printf("\n[!] Error -> Datos incorrectos (0, 0, 0)\n");
-                      
-                      printf("\n-> Vector (v1 v2 v3): ");                         // Pedimos el vector de rotación
-                      scanf("%s %s %s", &x, &y, &z);
-                      while (chr != 10) chr = getchar();
-                      chr = '?';
-                      n = 1;
-                    } while ((atof(x) == 0) && (atof(y) == 0) && (atof(z) == 0));
+                  do {
+                     if (n != 0) 
+                     printf("\n[!] Error -> Datos incorrectos (0, 0, 0)\n");
 
-                    datos.vector.modX(atof(x));
-                    datos.vector.modY(atof(y));
-                    datos.vector.modZ(atof(z));				
+                     printf("\n-> Vector (v1 v2 v3): ");                          // Pedimos el vector de rotación
+                     scanf("%s %s %s", &x, &y, &z);
+                     while (chr != 10) chr = getchar();
+                     chr = '?';
+                     n = 1;
+                  } while ((atof(x) == 0) && (atof(y) == 0) && (atof(z) == 0));
 
-                    printf("\n-> Angulo (grados): ");                              // Pedimos el ángulo de rotación
-                    scanf("%s", &angulo);
+                  datos.vector.modX(atof(x));
+                  datos.vector.modY(atof(y));
+                  datos.vector.modZ(atof(z));				
 
-                    while (chr != 10) chr = getchar();
-                    datos.angulo = atof(angulo);
+                  printf("\n-> Angulo (grados): ");                               // Pedimos el ángulo de rotación
+                  scanf("%s", &angulo);
 
-                    createThread = true;
-                    pthread_create(&ID_Thread, NULL, &rotarCubo, (void *) &datos);
-                }
-                break;
+                  while (chr != 10) chr = getchar();
+                  datos.angulo = atof(angulo);
 
-	  case 'k': if (createThread) destroyThread = true;			                  // Destruimos el hilo de ejecución
-                break;
+                  createThread = true;
+                  pthread_create(&ID_Thread, NULL, &rotarCubo, (void *) &datos);
+               }
+               break;
+
+	  case 'k': if (createThread) destroyThread = true;			                   // Destruimos el hilo de ejecución
+               break;
 
       case 'f': win.fullScreen();                                                 // Modo de pantalla completa
                 break;
@@ -293,76 +292,76 @@ void keyPress(unsigned char key_code, int xpos, int ypos) {
                 break;
 
 	  case 'o': if ((!explotar) && !(cubotapa.cogerTapa())) {
-                   *(cubotapa.listaVerticesTapa()) = (cubo.listaVertices() + 4);
-                   *(cubotapa.listaVerticesTapa() + 1) = (cubo.listaVertices() + 5);
-                   *(cubotapa.listaVerticesTapa() + 2) = (cubo.listaVertices() + 6);
-                   *(cubotapa.listaVerticesTapa() + 3) = (cubo.listaVertices() + 7);
+                  *(cubotapa.listaVerticesTapa()) = (cubo.listaVertices() + 4);
+                  *(cubotapa.listaVerticesTapa() + 1) = (cubo.listaVertices() + 5);
+                  *(cubotapa.listaVerticesTapa() + 2) = (cubo.listaVertices() + 6);
+                  *(cubotapa.listaVerticesTapa() + 3) = (cubo.listaVertices() + 7);
 
-                   datos2.punto = cubotapa.listaVerticesTapa();
-                   datos2.vector = new Punto3D((cubotapa.listaVerticesTapa() + 1)->cogerX() - (cubotapa.listaVerticesTapa())->cogerX(),
-                   (cubotapa.listaVerticesTapa() + 1)->cogerY() - (cubotapa.listaVerticesTapa())->cogerY(),
-                   (cubotapa.listaVerticesTapa() + 1)->cogerZ() - (cubotapa.listaVerticesTapa())->cogerZ());
-                   datos2.angulo = 25;
+                  datos2.punto = cubotapa.listaVerticesTapa();
+                  datos2.vector = new Punto3D((cubotapa.listaVerticesTapa() + 1)->cogerX() - (cubotapa.listaVerticesTapa())->cogerX(),
+                  (cubotapa.listaVerticesTapa() + 1)->cogerY() - (cubotapa.listaVerticesTapa())->cogerY(),
+                  (cubotapa.listaVerticesTapa() + 1)->cogerZ() - (cubotapa.listaVerticesTapa())->cogerZ());
+                  datos2.angulo = 25;
 
-                   cubotapa.modTapa(true);
-                   pthread_create(&ID_Thread, NULL, &abrirCubo, (void *) &datos2);   // Abrimos la parte superior del cubo
-                }
-                break;
+                  cubotapa.modTapa(true);
+                  pthread_create(&ID_Thread, NULL, &abrirCubo, (void *) &datos2); // Abrimos la parte superior del cubo
+               }
+               break;
 
-	  case 'd': if (createThread) destroyThread = true;                              // Destruimos el cubo aunque este rotando
-                if (!explotar) { 
-                   explotar = true;                                                  // Explotamos el cubo
+	  case 'd': if (createThread) destroyThread = true;                            // Destruimos el cubo aunque este rotando
+               if (!explotar) { 
+                  explotar = true;                                                // Explotamos el cubo
 
-                   for(int i = 0; i < 6; i++) {
-                      (cuboDestroy.listaCaras() + i)->modRGBaristas(0.9, 0.9, 0.9);
-                      (cuboDestroy.listaCaras() + i)->modRGBcaras(0.7, 0.5, 0.3);
-                   }
+                  for(int i = 0; i < 6; i++) {
+                     (cuboDestroy.listaCaras() + i)->modRGBaristas(0.9, 0.9, 0.9);
+                     (cuboDestroy.listaCaras() + i)->modRGBcaras(0.7, 0.5, 0.3);
+                  }
 
-                   *((cuboDestroy.listaCaras())->listaVertices()) = (cubo.listaVertices());
-                   *((cuboDestroy.listaCaras())->listaVertices() + 1) = (cubo.listaVertices() + 3);
-                   *((cuboDestroy.listaCaras())->listaVertices() + 2) = (cubo.listaVertices() + 2);
-                   *((cuboDestroy.listaCaras())->listaVertices() + 3) = (cubo.listaVertices() + 1);
+                  *((cuboDestroy.listaCaras())->listaVertices()) = (cubo.listaVertices());
+                  *((cuboDestroy.listaCaras())->listaVertices() + 1) = (cubo.listaVertices() + 3);
+                  *((cuboDestroy.listaCaras())->listaVertices() + 2) = (cubo.listaVertices() + 2);
+                  *((cuboDestroy.listaCaras())->listaVertices() + 3) = (cubo.listaVertices() + 1);
 
-                   *((cuboDestroy.listaCaras() + 1)->listaVertices()) = (cubo.listaVertices() + 1);
-                   *((cuboDestroy.listaCaras() + 1)->listaVertices() + 1) = (cubo.listaVertices() + 2);
-                   *((cuboDestroy.listaCaras() + 1)->listaVertices() + 2) = (cubo.listaVertices() + 6);
-                   *((cuboDestroy.listaCaras() + 1)->listaVertices() + 3) = (cubo.listaVertices() + 5);
+                  *((cuboDestroy.listaCaras() + 1)->listaVertices()) = (cubo.listaVertices() + 1);
+                  *((cuboDestroy.listaCaras() + 1)->listaVertices() + 1) = (cubo.listaVertices() + 2);
+                  *((cuboDestroy.listaCaras() + 1)->listaVertices() + 2) = (cubo.listaVertices() + 6);
+                  *((cuboDestroy.listaCaras() + 1)->listaVertices() + 3) = (cubo.listaVertices() + 5);
 
-                   *((cuboDestroy.listaCaras() + 2)->listaVertices()) = (cubo.listaVertices() + 2);
-                   *((cuboDestroy.listaCaras() + 2)->listaVertices() + 1) = (cubo.listaVertices() + 3);
-                   *((cuboDestroy.listaCaras() + 2)->listaVertices() + 2) = (cubo.listaVertices() + 7);
-                   *((cuboDestroy.listaCaras() + 2)->listaVertices() + 3) = (cubo.listaVertices() + 6);
+                  *((cuboDestroy.listaCaras() + 2)->listaVertices()) = (cubo.listaVertices() + 2);
+                  *((cuboDestroy.listaCaras() + 2)->listaVertices() + 1) = (cubo.listaVertices() + 3);
+                  *((cuboDestroy.listaCaras() + 2)->listaVertices() + 2) = (cubo.listaVertices() + 7);
+                  *((cuboDestroy.listaCaras() + 2)->listaVertices() + 3) = (cubo.listaVertices() + 6);
 
-                   *((cuboDestroy.listaCaras() + 3)->listaVertices()) = (cubo.listaVertices() + 3);
-                   *((cuboDestroy.listaCaras() + 3)->listaVertices() + 1) = (cubo.listaVertices());
-                   *((cuboDestroy.listaCaras() + 3)->listaVertices() + 2) = (cubo.listaVertices() + 4);
-                   *((cuboDestroy.listaCaras() + 3)->listaVertices() + 3) = (cubo.listaVertices() + 7);
+                  *((cuboDestroy.listaCaras() + 3)->listaVertices()) = (cubo.listaVertices() + 3);
+                  *((cuboDestroy.listaCaras() + 3)->listaVertices() + 1) = (cubo.listaVertices());
+                  *((cuboDestroy.listaCaras() + 3)->listaVertices() + 2) = (cubo.listaVertices() + 4);
+                  *((cuboDestroy.listaCaras() + 3)->listaVertices() + 3) = (cubo.listaVertices() + 7);
 
-                   *((cuboDestroy.listaCaras() + 4)->listaVertices()) = (cubo.listaVertices() + 5);
-                   *((cuboDestroy.listaCaras() + 4)->listaVertices() + 1) = (cubo.listaVertices() + 6);
-                   *((cuboDestroy.listaCaras() + 4)->listaVertices() + 2) = (cubo.listaVertices() + 7);
-                   *((cuboDestroy.listaCaras() + 4)->listaVertices() + 3) = (cubo.listaVertices() + 4);
+                  *((cuboDestroy.listaCaras() + 4)->listaVertices()) = (cubo.listaVertices() + 5);
+                  *((cuboDestroy.listaCaras() + 4)->listaVertices() + 1) = (cubo.listaVertices() + 6);
+                  *((cuboDestroy.listaCaras() + 4)->listaVertices() + 2) = (cubo.listaVertices() + 7);
+                  *((cuboDestroy.listaCaras() + 4)->listaVertices() + 3) = (cubo.listaVertices() + 4);
 
-                   *((cuboDestroy.listaCaras() + 5)->listaVertices()) = (cubo.listaVertices());
-                   *((cuboDestroy.listaCaras() + 5)->listaVertices() + 1) = (cubo.listaVertices() + 1);
-                   *((cuboDestroy.listaCaras() + 5)->listaVertices() + 2) = (cubo.listaVertices() + 5);
-                   *((cuboDestroy.listaCaras() + 5)->listaVertices() + 3) = (cubo.listaVertices() + 4);
+                  *((cuboDestroy.listaCaras() + 5)->listaVertices()) = (cubo.listaVertices());
+                  *((cuboDestroy.listaCaras() + 5)->listaVertices() + 1) = (cubo.listaVertices() + 1);
+                  *((cuboDestroy.listaCaras() + 5)->listaVertices() + 2) = (cubo.listaVertices() + 5);
+                  *((cuboDestroy.listaCaras() + 5)->listaVertices() + 3) = (cubo.listaVertices() + 4);
 
-                   listaPoligonos[0] = &ortoedro1;									 // Modificamos la lista de polígonos -> Ortoedro1
-                   listaPoligonos[1] = &ortoedro2;                                   // Modificamos la lista de polígonos -> Ortoedro2
-                   listaPoligonos[2] = &dodecaedro;                                  // Modificamos la lista de polígonos -> Dodecaedro
-                   listaPoligonos[3] = &icosaedro;                                   // Modificamos la lista de polígonos -> Icosaedro
-                   listaPoligonos[4] = cuboDestroy.listaCaras();                     // Modificamos la lista de polígonos -> Cara1 -> cubo 
-                   listaPoligonos[5] = (cuboDestroy.listaCaras() + 1);               // Modificamos la lista de polígonos -> Cara2 -> cubo
-                   listaPoligonos[6] = (cuboDestroy.listaCaras() + 2);               // Modificamos la lista de polígonos -> Cara3 -> cubo
-                   listaPoligonos[7] = (cuboDestroy.listaCaras() + 3);               // Modificamos la lista de polígonos -> Cara4 -> cubo
-                   listaPoligonos[8] = (cuboDestroy.listaCaras() + 4);               // Modificamos la lista de polígonos -> Cara5 -> cubo
-                   listaPoligonos[9] = (cuboDestroy.listaCaras() + 5);               // Modificamos la lista de polígonos -> Cara6 -> cubo
+                  listaPoligonos[0] = &ortoedro1;                                // Modificamos la lista de polígonos -> Ortoedro1
+                  listaPoligonos[1] = &ortoedro2;                                // Modificamos la lista de polígonos -> Ortoedro2
+                  listaPoligonos[2] = &dodecaedro;                               // Modificamos la lista de polígonos -> Dodecaedro
+                  listaPoligonos[3] = &icosaedro;                                // Modificamos la lista de polígonos -> Icosaedro
+                  listaPoligonos[4] = cuboDestroy.listaCaras();                  // Modificamos la lista de polígonos -> Cara1 -> cubo 
+                  listaPoligonos[5] = (cuboDestroy.listaCaras() + 1);            // Modificamos la lista de polígonos -> Cara2 -> cubo
+                  listaPoligonos[6] = (cuboDestroy.listaCaras() + 2);            // Modificamos la lista de polígonos -> Cara3 -> cubo
+                  listaPoligonos[7] = (cuboDestroy.listaCaras() + 3);            // Modificamos la lista de polígonos -> Cara4 -> cubo
+                  listaPoligonos[8] = (cuboDestroy.listaCaras() + 4);            // Modificamos la lista de polígonos -> Cara5 -> cubo
+                  listaPoligonos[9] = (cuboDestroy.listaCaras() + 5);            // Modificamos la lista de polígonos -> Cara6 -> cubo
 
-                   numPoligonos = 10;
-                   pthread_create(&ID_Thread, NULL, &explotarCubo, NULL);
-                }
-                break;
+                  numPoligonos = 10;
+                  pthread_create(&ID_Thread, NULL, &explotarCubo, NULL);
+               }
+               break;
 		  
         default: break;
     }
@@ -371,37 +370,37 @@ void keyPress(unsigned char key_code, int xpos, int ypos) {
 void keySpecPress(int key_code, int xpos, int ypos) {
    switch(key_code) {
 	  case GLUT_KEY_UP: if (agachar) {
-                           v.modX(v.cogerX() + (DELAY2 / 4 * cos(v.cogerAngulo())));       // Movimiento hacia delante
-                           v.modY(v.cogerY() + (DELAY2 / 4 * sin(v.cogerAngulo())));
-                        }
-                        else {
-                           v.modX(v.cogerX() + (1.5 * DELAY2 * cos(v.cogerAngulo())));     // Movimiento hacia delante
-                           v.modY(v.cogerY() + (1.5 * DELAY2 * sin(v.cogerAngulo())));                           
-                        }
-                        calcularLandas();
-                        break;
+                          v.modX(v.cogerX() + (DELAY2 / 4 * cos(v.cogerAngulo())));       // Movimiento hacia delante
+                          v.modY(v.cogerY() + (DELAY2 / 4 * sin(v.cogerAngulo())));
+                       }
+                       else {
+                          v.modX(v.cogerX() + (1.5 * DELAY2 * cos(v.cogerAngulo())));     // Movimiento hacia delante
+                          v.modY(v.cogerY() + (1.5 * DELAY2 * sin(v.cogerAngulo())));                           
+                       }
+                       calcularLandas();
+                       break;
 
 	  case GLUT_KEY_DOWN: if (agachar) {
-                             v.modX(v.cogerX() + (-DELAY2 / 4 * cos(v.cogerAngulo())));    // Movimiento hacia detras
-                             v.modY(v.cogerY() + (-DELAY2 / 4 * sin(v.cogerAngulo())));
-                          }
-                          else {
-                             v.modX(v.cogerX() + (1.5 * -DELAY2 * cos(v.cogerAngulo())));  // Movimiento hacia detras
-                             v.modY(v.cogerY() + (1.5 * -DELAY2 * sin(v.cogerAngulo())));                           
-                          }
+                           v.modX(v.cogerX() + (-DELAY2 / 4 * cos(v.cogerAngulo())));    // Movimiento hacia detras
+                           v.modY(v.cogerY() + (-DELAY2 / 4 * sin(v.cogerAngulo())));
+                         }
+                         else {
+                            v.modX(v.cogerX() + (1.5 * -DELAY2 * cos(v.cogerAngulo())));  // Movimiento hacia detras
+                            v.modY(v.cogerY() + (1.5 * -DELAY2 * sin(v.cogerAngulo())));                           
+                         }
+                         calcularLandas();
+                         break;
+
+	  case GLUT_KEY_LEFT: v.modAngulo(v.cogerAngulo() + DELAY);                    // Modificamos la visual -> Giro hacia la izquierda
+                         calcularLandas();
+                         break;
+
+	  case GLUT_KEY_RIGHT: v.modAngulo(v.cogerAngulo() - DELAY);                   // Modificamos la visual -> Giro hacia la derecha
                           calcularLandas();
                           break;
-
-	  case GLUT_KEY_LEFT: v.modAngulo(v.cogerAngulo() + DELAY);                   // Modificamos la visual -> Giro hacia la izquierda
-                          calcularLandas();
-                          break;
-
-	  case GLUT_KEY_RIGHT: v.modAngulo(v.cogerAngulo() - DELAY);                  // Modificamos la visual -> Giro hacia la derecha
-                           calcularLandas();
-                           break;
 
       default: break;
-    }
+   }
 }
 
 void mouseClick(int button, int state, int x, int y) {
@@ -456,7 +455,7 @@ void ordenarPoligonos() {
 void calcularLandas() {
    for (int j = 0; j < numPoligonos; j++) {
       listaPoligonos[j]->CalcularLandas(v);
-	  listaPoligonos[j]->CalcularLandaMin();
+      listaPoligonos[j]->CalcularLandaMin();
    }
 }
 
@@ -513,10 +512,10 @@ void * explotarCubo(void * e) {
       Sleep(SEGUNDOS * 1000);
    }
 
-   listaPoligonos[0] = &ortoedro1;									    // Modificamos la lista de polígonos -> Ortoedro1
-   listaPoligonos[1] = &ortoedro2;                                      // Modificamos la lista de polígonos -> Ortoedro2
-   listaPoligonos[2] = &dodecaedro;                                     // Modificamos la lista de polígonos -> Dodecaedro
-   listaPoligonos[3] = &icosaedro;                                      // Modificamos la lista de polígonos -> Icosaedro
+   listaPoligonos[0] = &ortoedro1;                                                // Modificamos la lista de polígonos -> Ortoedro1
+   listaPoligonos[1] = &ortoedro2;                                                // Modificamos la lista de polígonos -> Ortoedro2
+   listaPoligonos[2] = &dodecaedro;                                               // Modificamos la lista de polígonos -> Dodecaedro
+   listaPoligonos[3] = &icosaedro;                                                // Modificamos la lista de polígonos -> Icosaedro
    numPoligonos = 4;
 
    explotado = true;

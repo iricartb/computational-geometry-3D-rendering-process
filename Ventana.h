@@ -14,9 +14,9 @@
 class Ventana {
 
 private:
-  int ancho, alto;
-  double m_ancho, m_alto;
-  bool fscreen;
+   int ancho, alto;
+   double m_ancho, m_alto;
+   bool fscreen;
 
 public:
    Ventana(int, int, double, double);

@@ -37,8 +37,8 @@ void Xcara::CalcularLandaMin() {
 
    for (int j = 1; j < 4; j++) { 
       if (landa > verticesTapa[j].cogerL()) {
-	     landa = verticesTapa[j].cogerL();
-	  }
+         landa = verticesTapa[j].cogerL();
+      }
    }
    landaMin = landa;
 }
@@ -59,41 +59,41 @@ void Xcara::dibujar(Visual v, Ventana win) {
          if ((verticesTapa[n].cogerL() > 0) && (verticesTapa[(n + 1) % 4].cogerL() > 0)) {
             aux1 = Figura::punto3Da2D(verticesTapa[n], v, win);
             aux2 = Figura::punto3Da2D(verticesTapa[(n + 1) % 4], v, win);
-		    aux2D = Arista2D(&aux1, &aux2);
-			Cpintar.addArista2D(&aux2D);
-		 }
-	     else if (((verticesTapa[n].cogerL() < 0) && (verticesTapa[(n + 1) % 4].cogerL() > 0)) || 
-		    ((verticesTapa[n].cogerL() > 0) && (verticesTapa[(n + 1) % 4].cogerL() < 0))) {
-		    if ((verticesTapa[n].cogerL() < 0) && (verticesTapa[(n + 1) % 4].cogerL() > 0)) {
+            aux2D = Arista2D(&aux1, &aux2);
+            Cpintar.addArista2D(&aux2D);
+         }
+         else if (((verticesTapa[n].cogerL() < 0) && (verticesTapa[(n + 1) % 4].cogerL() > 0)) || 
+         ((verticesTapa[n].cogerL() > 0) && (verticesTapa[(n + 1) % 4].cogerL() < 0))) {
+            if ((verticesTapa[n].cogerL() < 0) && (verticesTapa[(n + 1) % 4].cogerL() > 0)) {
                aux1 = Figura::punto3Da2D(verticesTapa[n], v, win);              // A' no es virtual
-	           aux2 = Figura::punto3Da2D(verticesTapa[(n + 1) % 4], v, win);    // B' es virtual			   
-			   aux2 = Figura::solucionarVisibilidad(aux2, aux1);                // B''
-			   aux2D = Arista2D(&aux1, &aux2);
-			   Cpintar.addArista2D(&aux2D);		    
-			}
+               aux2 = Figura::punto3Da2D(verticesTapa[(n + 1) % 4], v, win);    // B' es virtual			   
+               aux2 = Figura::solucionarVisibilidad(aux2, aux1);                // B''
+               aux2D = Arista2D(&aux1, &aux2);
+               Cpintar.addArista2D(&aux2D);		    
+            }
             else {
                aux1 = Figura::punto3Da2D(verticesTapa[n], v, win);              // A' es virtual
-	    	   aux2 = Figura::punto3Da2D(verticesTapa[(n + 1) % 4], v, win);    // B' no es virtual			   
-			   aux1 = Figura::solucionarVisibilidad(aux1, aux2);                // A''
-			   aux2D = Arista2D(&aux1, &aux2);
-			   Cpintar.addArista2D(&aux2D);
-			}
-		 }
-	  }
+               aux2 = Figura::punto3Da2D(verticesTapa[(n + 1) % 4], v, win);    // B' no es virtual			   
+               aux1 = Figura::solucionarVisibilidad(aux1, aux2);                // A''
+               aux2D = Arista2D(&aux1, &aux2);
+               Cpintar.addArista2D(&aux2D);
+            }
+         }
+      }
 
-	  if (pintar) {
-	     glColor3f(RGBcaras[0], RGBcaras[1], RGBcaras[2]);
-	     if (Cpintar.cogerCont2() == Cpintar.cogerNumAristas()) {
-		    Figura::calcularOrdenadas(&Cpintar);
-	        Figura::pintarCara(&Cpintar, win, v);
-		 }
-	  }
+      if (pintar) {
+         glColor3f(RGBcaras[0], RGBcaras[1], RGBcaras[2]);
+         if (Cpintar.cogerCont2() == Cpintar.cogerNumAristas()) {
+            Figura::calcularOrdenadas(&Cpintar);
+            Figura::pintarCara(&Cpintar, win, v);
+         }
+      }
       glColor3f(RGBaristas[0], RGBaristas[1], RGBaristas[2]);
-	  for(int i = 0; i < Cpintar.cogerCont2(); i++) {
-	     if (Figura::pintarSegmentos(&(Cpintar.listarAristas() + i)->cogerP1(), &(Cpintar.listarAristas() + i)->cogerP2(), win))
-		    Figura::drawLine(int((Cpintar.listarAristas() + i)->cogerP1().cogerX()), int((Cpintar.listarAristas() + i)->cogerP1().cogerY()), int((Cpintar.listarAristas() + i)->cogerP2().cogerX()), int((Cpintar.listarAristas() + i)->cogerP2().cogerY()));
-	  }
-	  Cpintar.erase();
+      for(int i = 0; i < Cpintar.cogerCont2(); i++) {
+         if (Figura::pintarSegmentos(&(Cpintar.listarAristas() + i)->cogerP1(), &(Cpintar.listarAristas() + i)->cogerP2(), win))
+            Figura::drawLine(int((Cpintar.listarAristas() + i)->cogerP1().cogerX()), int((Cpintar.listarAristas() + i)->cogerP1().cogerY()), int((Cpintar.listarAristas() + i)->cogerP2().cogerX()), int((Cpintar.listarAristas() + i)->cogerP2().cogerY()));
+      }
+      Cpintar.erase();
    }
 }
 

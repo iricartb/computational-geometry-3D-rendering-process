@@ -20,7 +20,6 @@ public:
    virtual ~Visual();
    double cogerAngulo(void) { return angAlpha; }
    int modAngulo(double alpha);
-
 };
 
 #endif // !defined(AFX_VISUAL_H__48071D2F_8960_4CA0_8BF0_B55BE1B5CB94__INCLUDED_)
