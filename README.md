@@ -1,4 +1,4 @@
-<img src="https://image.freepik.com/free-vector/human-hologram_36402-237.jpg" width="100%" />
+<img src="https://t4.ftcdn.net/jpg/04/25/47/33/360_F_425473395_PCDJaRoNLywC1cinzqrfCUMPsBo3PsEe.jpg" width="100%" />
 
 <h1>Computational Geometry 3D Rendering Process</h1>
 
